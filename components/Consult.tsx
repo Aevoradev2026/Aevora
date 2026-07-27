@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const inp: React.CSSProperties = {
@@ -14,6 +14,7 @@ const inp: React.CSSProperties = {
   fontFamily: 'var(--font-inter), sans-serif',
   outline: 'none',
   transition: 'border-color 0.3s, box-shadow 0.3s',
+  boxSizing: 'border-box',
 }
 
 const lbl: React.CSSProperties = {
@@ -32,6 +33,14 @@ export default function Consult() {
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState('')
   const [done, setDone] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const fi = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     e.target.style.borderColor = 'rgba(255,80,160,0.5)'
@@ -72,7 +81,7 @@ export default function Consult() {
     <section
       id="consult"
       style={{
-        padding: '130px 64px',
+        padding: isMobile ? '80px 20px' : '130px 64px',
         background: '#000000',
         borderTop: '1px solid rgba(255,255,255,0.05)',
       }}
@@ -92,7 +101,7 @@ export default function Consult() {
           </span>
           <h2 style={{
             fontFamily: 'var(--font-syne), sans-serif',
-            fontSize: 'clamp(34px, 5vw, 62px)',
+            fontSize: isMobile ? 'clamp(26px, 7vw, 40px)' : 'clamp(34px, 5vw, 62px)',
             fontWeight: 800, letterSpacing: '-0.03em',
             color: '#ffffff', marginTop: 20, marginBottom: 16, lineHeight: 1.05,
           }}>
@@ -106,11 +115,13 @@ export default function Consult() {
             </span>
           </h2>
           <p style={{
-            color: 'rgba(255,255,255,0.4)', fontSize: 17, lineHeight: 1.68,
+            color: 'rgba(255,255,255,0.4)',
+            fontSize: isMobile ? 14 : 17,
+            lineHeight: 1.68,
             fontWeight: 300, maxWidth: 500, margin: '0 auto',
             fontFamily: 'var(--font-inter), sans-serif',
           }}>
-            Submit your brief and Claude AI generates a personalized strategic response in seconds. Our team follows up within 24 hours.
+            Submit your brief and our team follows up within 24 hours.
           </p>
         </motion.div>
 
@@ -123,7 +134,9 @@ export default function Consult() {
           style={{
             background: 'rgba(255,255,255,0.025)',
             border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: 20, padding: 48, position: 'relative', overflow: 'hidden',
+            borderRadius: 20,
+            padding: isMobile ? 20 : 48,
+            position: 'relative', overflow: 'hidden',
           }}
         >
           {/* Top accent line */}
@@ -140,8 +153,13 @@ export default function Consult() {
             pointerEvents: 'none',
           }} />
 
-          {/* Row 1 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 18 }}>
+          {/* Fields - single column on mobile, two columns on desktop */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+            gap: 18,
+            marginBottom: 18,
+          }}>
             {[
               { l: 'Your Name', k: 'name', ph: 'John Smith', t: 'text' },
               { l: 'Email Address', k: 'email', ph: 'john@company.com', t: 'email' },
@@ -159,11 +177,15 @@ export default function Consult() {
             ))}
           </div>
 
-          {/* Row 2 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 18 }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+            gap: 18,
+            marginBottom: 18,
+          }}>
             {[
               { l: 'Project Type', k: 'type', opts: [['', 'Select type…'], ['website', 'Website Development'], ['webapp', 'Web Application'], ['ai', 'AI Integration'], ['automation', 'Automation'], ['other', 'Other']] },
-              { l: 'Budget Range',  k: 'budget', opts: [['', 'Select budget…'], ['5-15k', '$5k – $15k'], ['15-50k', '$15k – $50k'], ['50-150k', '$50k – $150k'], ['150k+', '$150k+']] },
+              { l: 'Budget Range', k: 'budget', opts: [['', 'Select budget…'], ['5-15k', '$5k – $15k'], ['15-50k', '$15k – $50k'], ['50-150k', '$50k – $150k'], ['150k+', '$150k+']] },
             ].map(({ l, k, opts }) => (
               <div key={k}>
                 <label style={lbl}>{l}</label>
@@ -210,44 +232,35 @@ export default function Consult() {
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
               transition: 'all 0.3s ease',
             }}
-            onMouseEnter={e => { if (!loading && !done) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(255,255,255,0.18)' } }}
-            onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
           >
             {loading ? (
               <>
                 <div style={{ width: 18, height: 18, border: '2.5px solid rgba(0,0,0,0.2)', borderTopColor: '#000000', borderRadius: '50%', animation: 'spinFast 0.65s linear infinite' }} />
-                Generating Your Strategy…
+                Sending…
               </>
             ) : done ? (
               <>
                 <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></svg>
-                Strategy Generated
+                Submitted!
               </>
             ) : (
-              <>
-                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-                Get AI Strategy →
-              </>
+              <>Get In Touch →</>
             )}
           </button>
 
-          {/* AI Response */}
+          {/* Response */}
           {response && (
             <div style={{
-              marginTop: 28, padding: 28,
+              marginTop: 28, padding: isMobile ? 16 : 28,
               background: 'rgba(255,80,160,0.06)',
               border: '1px solid rgba(255,80,160,0.2)',
-              borderRadius: 14, animation: 'aiSlideIn 0.5s ease',
+              borderRadius: 14,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: '50%',
                   background: 'linear-gradient(135deg, #ff8040, #ff50a0, #a040ff)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  animation: 'glowRing 3s ease infinite',
                 }}>
                   <svg width="15" height="15" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -255,10 +268,10 @@ export default function Consult() {
                   </svg>
                 </div>
                 <span style={{ fontSize: 11.5, fontWeight: 700, color: '#ff80c0', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--font-inter), sans-serif' }}>
-                  Aevora AI Strategy
+                  Aevora Team
                 </span>
               </div>
-              <p style={{ color: 'rgba(255,255,255,0.62)', fontSize: 15.5, lineHeight: 1.84, fontWeight: 300, whiteSpace: 'pre-line', fontFamily: 'var(--font-inter), sans-serif' }}>
+              <p style={{ color: 'rgba(255,255,255,0.62)', fontSize: isMobile ? 14 : 15.5, lineHeight: 1.84, fontWeight: 300, whiteSpace: 'pre-line', fontFamily: 'var(--font-inter), sans-serif' }}>
                 {response}
               </p>
             </div>
