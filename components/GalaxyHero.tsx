@@ -200,7 +200,7 @@ export default function GalaxyHero() {
       elapsed += 0.0008
 
       // Galaxy slow rotation
-      galaxy.rotation.y = elapsed * 1.5
+      galaxy.rotation.y = elapsed * 0.18
 
       // Gentle camera drift following mouse
       camera.position.x += (targetX - camera.position.x) * 0.018
@@ -286,7 +286,7 @@ export default function GalaxyHero() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: '0 64px',
+          padding: '0 clamp(20px, 5vw, 64px)',
           maxWidth: 1200,
           margin: '0 auto',
         }}
@@ -320,7 +320,7 @@ export default function GalaxyHero() {
           transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontFamily: 'var(--font-syne), sans-serif',
-            fontSize: 'clamp(48px, 6.5vw, 90px)',
+            fontSize: 'clamp(30px, 7vw, 90px)',
             fontWeight: 800,
             lineHeight: 1.0,
             letterSpacing: '-0.035em',
@@ -353,7 +353,7 @@ export default function GalaxyHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.65 }}
           style={{
-            fontSize: 'clamp(16px, 1.6vw, 19px)',
+            fontSize: 'clamp(14px, 3.5vw, 19px)',
             color: 'rgba(255,255,255,0.48)',
             maxWidth: 520,
             lineHeight: 1.78,

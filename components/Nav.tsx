@@ -3,9 +3,16 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60)
@@ -24,12 +31,12 @@ export default function Nav() {
       transition={{ duration: 0.6, ease: 'easeOut' }}
       style={{
         position: 'fixed',
-        top: 16,
+        top: 0,
         left: 0,
         right: 0,
         zIndex: 100,
         height: 64,
-        padding: '0 48px',
+        padding: isMobile ? '0 16px' : '0 48px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -53,11 +60,11 @@ export default function Nav() {
           cursor: 'pointer',
         }}
       >
-        <Image src="/logo.png" width={165} height={165} alt="Aevora Logo" />
+        <Image src="/logo.png" width={isMobile ? 40 : 90} height={isMobile ? 40 : 90} alt="Aevora Logo" />
       </button>
 
       {/* Links */}
-      <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: isMobile ? 16 : 36, alignItems: 'center' }}>
         {[
           ['Services', 'services'],
           ['Work', 'work'],
