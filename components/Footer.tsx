@@ -1,5 +1,4 @@
 'use client'
-import Image from 'next/image'
 
 import { motion } from 'framer-motion'
 
@@ -20,16 +19,14 @@ const LINKS = [
 
 const SOCIALS = [
   {
-    label: 'X / Twitter',
-    path: 'M18 6L6 18M6 6l12 12',
+    label: 'Instagram',
+    href: 'https://instagram.com/aevora.dev',
+    path: 'M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01M6.5 2h11A4.5 4.5 0 0122 6.5v11a4.5 4.5 0 01-4.5 4.5h-11A4.5 4.5 0 012 17.5v-11A4.5 4.5 0 016.5 2z',
   },
   {
-    label: 'LinkedIn',
-    path: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z',
-  },
-  {
-    label: 'GitHub',
-    path: 'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22',
+    label: 'Telegram',
+    href: 'https://t.me/aevoradev',
+    path: 'M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z',
   },
 ]
 
@@ -68,7 +65,11 @@ export default function Footer() {
                 marginBottom: 20, padding: 0,
               }}
             >
-              <Image src="/logo.png" width={64} height={64} alt="Aevora Logo" />
+              <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+                <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="white" strokeWidth="1.4" />
+                <polygon points="16,8 24,12.5 24,21.5 16,26 8,21.5 8,12.5" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" strokeWidth="0.7" />
+                <circle cx="16" cy="16" r="2.8" fill="white" />
+              </svg>
               <span
                 style={{
                   fontFamily: 'var(--font-syne), sans-serif',
@@ -94,8 +95,11 @@ export default function Footer() {
             {/* Socials */}
             <div style={{ display: 'flex', gap: 10, marginTop: 28 }}>
               {SOCIALS.map(s => (
-                <button
+                <a
                   key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.label}
                   style={{
                     width: 36, height: 36, borderRadius: '50%',
@@ -103,6 +107,7 @@ export default function Footer() {
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     cursor: 'pointer', background: 'transparent',
                     transition: 'all 0.25s', color: 'rgba(255,255,255,0.35)',
+                    textDecoration: 'none',
                   }}
                   onMouseEnter={e => {
                     e.currentTarget.style.borderColor = 'rgba(255,80,160,0.45)'
@@ -123,7 +128,7 @@ export default function Footer() {
                   >
                     <path d={s.path} />
                   </svg>
-                </button>
+                </a>
               ))}
             </div>
           </div>

@@ -26,9 +26,7 @@ export default function Nav() {
   }
 
   // روی موبایل فقط Services، Process، Contact
-  const links = isMobile
-    ? [['Services', 'services'], ['Process', 'process'], ['Contact', 'consult']]
-    : [['Services', 'services'], ['Work', 'work'], ['Process', 'process'], ['Contact', 'consult']]
+  const links = [['Services', 'services'], ['Process', 'process'], ['Contact', 'consult']]
 
   return (
     <motion.nav
