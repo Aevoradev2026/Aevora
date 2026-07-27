@@ -286,7 +286,7 @@ export default function GalaxyHero() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: '90px clamp(20px, 5vw, 64px) 0',
+          padding: '140px clamp(20px, 5vw, 64px) 0',
           maxWidth: 1200,
           margin: '0 auto',
         }}

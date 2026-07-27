@@ -19,6 +19,8 @@ const inter = Inter({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export const metadata: Metadata = {
@@ -40,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${syne.variable} ${inter.variable}`}>
-      <body className="bg-black text-white antialiased font-inter">
+      <body className="bg-black text-white antialiased font-inter" style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
         {children}
       </body>
     </html>
