@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
-import { Syne, Inter, Orbitron } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Syne, Inter } from 'next/font/google'
 import './globals.css'
 
 const syne = Syne({
@@ -16,13 +16,10 @@ const inter = Inter({
   display: 'swap',
 })
 
-// Closest Google Font match to the Aevora wordmark typography
-const orbitron = Orbitron({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-orbitron',
-  display: 'swap',
-})
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: 'Aevora — Premium Web Development Agency',
@@ -36,9 +33,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" className={`${syne.variable} ${inter.variable} ${orbitron.variable}`}>
+    <html lang="en" className={`${syne.variable} ${inter.variable}`}>
       <body className="bg-black text-white antialiased font-inter">
         {children}
       </body>

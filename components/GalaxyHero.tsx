@@ -400,33 +400,7 @@ export default function GalaxyHero() {
           >
             Start Your Project →
           </button>
-          <button
-            onClick={() => scrollTo('work')}
-            style={{
-              background: 'transparent',
-              color: 'rgba(255,255,255,0.65)',
-              padding: '15px 38px',
-              borderRadius: 8,
-              fontSize: 15,
-              fontWeight: 500,
-              cursor: 'pointer',
-              border: '1px solid rgba(255,255,255,0.18)',
-              fontFamily: 'var(--font-inter), sans-serif',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'
-              e.currentTarget.style.color = '#ffffff'
-              e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)'
-              e.currentTarget.style.color = 'rgba(255,255,255,0.65)'
-              e.currentTarget.style.background = 'transparent'
-            }}
-          >
-            View Our Work
-          </button>
+
         </motion.div>
 
         {/* Stats */}
