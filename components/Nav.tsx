@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -23,6 +24,11 @@ export default function Nav() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  // روی موبایل فقط Services، Process، Contact
+  const links = isMobile
+    ? [['Services', 'services'], ['Process', 'process'], ['Contact', 'consult']]
+    : [['Services', 'services'], ['Work', 'work'], ['Process', 'process'], ['Contact', 'consult']]
 
   return (
     <motion.nav
@@ -54,23 +60,18 @@ export default function Nav() {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 10,
           background: 'none',
           border: 'none',
           cursor: 'pointer',
+          padding: 0,
         }}
       >
-        <Image src="/logo.png" width={isMobile ? 40 : 90} height={isMobile ? 40 : 90} alt="Aevora Logo" />
+        <Image src="/logo.png" width={isMobile ? 52 : 90} height={isMobile ? 52 : 90} alt="Aevora Logo" />
       </button>
 
       {/* Links */}
-      <div style={{ display: 'flex', gap: isMobile ? 16 : 36, alignItems: 'center' }}>
-        {[
-          ['Services', 'services'],
-          ['Work', 'work'],
-          ['Process', 'process'],
-          ['Contact', 'consult'],
-        ].map(([label, id]) => (
+      <div style={{ display: 'flex', gap: isMobile ? 14 : 36, alignItems: 'center' }}>
+        {links.map(([label, id]) => (
           <button
             key={id}
             onClick={() => scrollTo(id)}
@@ -78,7 +79,7 @@ export default function Nav() {
               background: 'none',
               border: 'none',
               color: 'rgba(255,255,255,0.45)',
-              fontSize: 13,
+              fontSize: isMobile ? 12 : 13,
               fontWeight: 500,
               cursor: 'pointer',
               fontFamily: 'var(--font-inter), sans-serif',
@@ -86,45 +87,43 @@ export default function Nav() {
               transition: 'color 0.2s',
               padding: 0,
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.color = 'rgba(255,255,255,0.9)')
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = 'rgba(255,255,255,0.45)')
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.9)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.45)')}
           >
             {label}
           </button>
         ))}
       </div>
 
-      {/* CTA */}
-      <button
-        onClick={() => scrollTo('consult')}
-        style={{
-          background: 'rgba(255,255,255,0.08)',
-          border: '1px solid rgba(255,255,255,0.14)',
-          color: '#ffffff',
-          padding: '9px 22px',
-          borderRadius: 8,
-          fontSize: 13,
-          fontWeight: 600,
-          cursor: 'pointer',
-          fontFamily: 'var(--font-inter), sans-serif',
-          letterSpacing: '0.01em',
-          transition: 'all 0.25s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(255,255,255,0.14)'
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'
-        }}
-      >
-        Start Project
-      </button>
+      {/* CTA - فقط روی دسکتاپ */}
+      {!isMobile && (
+        <button
+          onClick={() => scrollTo('consult')}
+          style={{
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.14)',
+            color: '#ffffff',
+            padding: '9px 22px',
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'var(--font-inter), sans-serif',
+            letterSpacing: '0.01em',
+            transition: 'all 0.25s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.14)'
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'
+          }}
+        >
+          Start Project
+        </button>
+      )}
     </motion.nav>
   )
 }
